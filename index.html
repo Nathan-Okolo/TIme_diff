@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Time Interval Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url("https://i.stack.imgur.com/y1wd5.jpg");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center; /* Center contents horizontally */
+            position: relative;
+        }
+
+        .input-field {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .input-field label {
+            margin-right: 10px;
+        }
+
+        .input-field input[type="number"] {
+            width: 70px;
+            padding: 5px;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .result {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        .calculate-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .calculate-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .calculate-btn:active {
+            transform: translateY(2px);
+        }
+
+        .clear-btn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: #999;
+        }
+
+        .clear-btn:hover {
+            color: #555;
+        }
+
+        @media (max-width: 600px) {
+            /* Style changes for mobile view */
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Time Interval Calculator</h2>
+        <p>Use this calculator to find the time difference between two time intervals in hours and minutes.</p>
+        <div class="input-field">
+            <label>Start Time:</label>
+            <input type="number" id="startHour" placeholder="HH" min="1" max="12">
+            :
+            <input type="number" id="startMinute" placeholder="MM" min="0" max="59">
+            <select id="startAMPM">
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+            </select>
+        </div>
+        <div class="input-field">
+            <label>End Time:</label>
+            <input type="number" id="endHour" placeholder="HH" min="1" max="12">
+            :
+            <input type="number" id="endMinute" placeholder="MM" min="0" max="59">
+            <select id="endAMPM">
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+            </select>
+        </div>
+        <div>
+            <input type="button" class="calculate-btn" value="Calculate" onclick="OnCalculate()" />
+            <button class="clear-btn" onclick="OnClear()"><i class="fas fa-redo"></i></button>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function OnCalculate() {
+            const startHour = parseInt(document.getElementById('startHour').value);
+            const startMinute = parseInt(document.getElementById('startMinute').value);
+            const startAMPM = document.getElementById('startAMPM').value;
+
+            const endHour = parseInt(document.getElementById('endHour').value);
+            const endMinute = parseInt(document.getElementById('endMinute').value);
+            const endAMPM = document.getElementById('endAMPM').value;
+
+            let startInMinutes = (startHour % 12) * 60 + startMinute;
+            if (startAMPM === 'PM') {
+                startInMinutes += 12 * 60;
+            }
+
+            let endInMinutes = (endHour % 12) * 60 + endMinute;
+            if (endAMPM === 'PM') {
+                endInMinutes += 12 * 60;
+            }
+
+            let timeDifference = Math.abs(endInMinutes - startInMinutes);
+            const hoursDifference = Math.floor(timeDifference / 60);
+            const minutesDifference = timeDifference % 60;
+
+            document.getElementById('result').innerText = `${hoursDifference} Hours ${minutesDifference} Minutes`;
+        }
+
+        function OnClear() {
+            document.getElementById('startHour').value = '';
+            document.getElementById('startMinute').value = '';
+            document.getElementById('endHour').value = '';
+            document.getElementById('endMinute').value = '';
+            document.getElementById('result').innerText = '';
+        }
+    </script>
+</body>
+</html>
